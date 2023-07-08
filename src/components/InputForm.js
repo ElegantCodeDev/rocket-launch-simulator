@@ -1,17 +1,8 @@
 import React from "react";
-import { Button, TextField, Grid, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-	form: {
-		marginTop: theme.spacing(6),
-	},
-	field: {
-		marginRight: theme.spacing(2),
-	},
-}));
+import { Button, TextField, Grid } from "@mui/material";
+import { styled } from "@mui/system";
 
 const InputForm = ({ onCalculate }) => {
-	const classes = useStyles();
 	const [angle, setAngle] = React.useState(30);
 	const [distance, setDistance] = React.useState(100);
 
@@ -19,25 +10,33 @@ const InputForm = ({ onCalculate }) => {
 		event.preventDefault();
 		onCalculate(angle, distance);
 	};
+
+	const handleInputChange = (event) => {
+		let value = event.target.value;
+		if (value > 89) {
+			value = 89;
+		}
+		setAngle(value);
+	};
+
 	return (
-		<form onSubmit={handleSubmit} className={classes.form}>
+		<StyledForm onSubmit={handleSubmit}>
 			<Grid container spacing={3}>
 				<Grid item>
-					<TextField
+					<StyledField
 						label="Launch Angle (degrees)"
 						type="number"
 						value={angle}
-						onChange={(e) => setAngle(e.target.value)}
-						className={classes.field}
+						onChange={(e) => handleInputChange(e)}
+						inputProps={{ min: "0", max: "89", step: "1" }}
 					/>
 				</Grid>
 				<Grid item>
-					<TextField
+					<StyledField
 						label="Landing Distance (meters)"
 						type="number"
 						value={distance}
 						onChange={(e) => setDistance(e.target.value)}
-						className={classes.field}
 					/>
 				</Grid>
 				<Grid item>
@@ -46,8 +45,16 @@ const InputForm = ({ onCalculate }) => {
 					</Button>
 				</Grid>
 			</Grid>
-		</form>
+		</StyledForm>
 	);
 };
+
+const StyledForm = styled("form")(({ theme }) => ({
+	marginTop: theme.spacing(8),
+}));
+
+const StyledField = styled(TextField)(({ theme }) => ({
+	marginRight: theme.spacing(4),
+}));
 
 export default InputForm;

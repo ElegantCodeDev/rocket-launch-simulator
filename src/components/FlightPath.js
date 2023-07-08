@@ -1,18 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-	svgContainer: {
-		width: 750,
-		height: 400,
-		padding: theme.spacing(2),
-	},
-}));
+import { styled } from "@mui/system";
 
 const FlightPath = ({ xCoordinates, yCoordinates, currentIndex }) => {
 	const d3Container = useRef(null);
-	const classes = useStyles();
 
 	useEffect(() => {
 		if (xCoordinates && yCoordinates && d3Container.current) {
@@ -78,7 +69,13 @@ const FlightPath = ({ xCoordinates, yCoordinates, currentIndex }) => {
 		}
 	}, [xCoordinates, yCoordinates, currentIndex]);
 
-	return <svg ref={d3Container} className={classes.svgContainer} />;
+	return <StyledSvg ref={d3Container} />;
 };
+
+const StyledSvg = styled("svg")(({ theme }) => ({
+	width: 750,
+	height: 400,
+	padding: theme.spacing(2),
+}));
 
 export default FlightPath;

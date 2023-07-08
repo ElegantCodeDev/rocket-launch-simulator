@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Divider } from "@material-ui/core";
+import { Typography, Box, Divider } from "@mui/material";
 
 const FlightData = ({
 	initialVelocity,
@@ -20,9 +20,6 @@ const FlightData = ({
 			sx={{
 				padding: 2,
 				bgcolor: "background.paper",
-				borderRadius: 1,
-				marginTop: 2,
-				marginBottom: 2,
 			}}
 		>
 			<Typography variant="h6" sx={{ mb: 2 }}>

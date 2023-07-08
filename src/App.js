@@ -1,29 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-	Container,
-	Typography,
-	Paper,
-	Grid,
-	makeStyles,
-} from "@material-ui/core";
+import { Container, Typography, Paper, Grid } from "@mui/material";
+import { styled } from "@mui/system";
 import InputForm from "./components/InputForm";
 import FlightPath from "./components/FlightPath";
 import FlightData from "./components/FlightData";
 import calculateProjectilePath from "./utils/calculateProjectilePath";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		padding: theme.spacing(2),
-		margin: "auto",
-	},
-	simulator: {
-		padding: theme.spacing(2),
-		marginTop: theme.spacing(2),
-	},
-}));
-
 function App() {
-	const classes = useStyles();
 	const [flightData, setFlightData] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [angle, setAngle] = React.useState(30);
@@ -55,14 +38,14 @@ function App() {
 	}, [flightData]);
 
 	return (
-		<Container className={classes.root}>
+		<RootContainer>
 			<Typography variant="h4" align="center">
 				Rocket Launch Simulator
 			</Typography>
 			<InputForm onCalculate={handleCalculate} />
 
 			{flightData && (
-				<Grid container spacing={3} className={classes.simulator}>
+				<Grid container spacing={2} mt={2}>
 					<Grid item xs={8}>
 						<Paper elevation={3}>
 							<FlightPath
@@ -84,8 +67,13 @@ function App() {
 					</Grid>
 				</Grid>
 			)}
-		</Container>
+		</RootContainer>
 	);
 }
+
+const RootContainer = styled(Container)(({ theme }) => ({
+	padding: 10,
+	margin: "auto",
+}));
 
 export default App;
