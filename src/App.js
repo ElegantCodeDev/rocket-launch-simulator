@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useState, useEffect } from "react";
 import {
 	Container,
@@ -35,21 +33,19 @@ function App() {
 
 		setFlightData(data);
 		setAngle(angle);
-		setCurrentIndex(0); // Reset the current index when new data is calculated
+		setCurrentIndex(0);
 	};
 
 	useEffect(() => {
 		if (flightData) {
 			const timer = setInterval(() => {
 				setCurrentIndex((currentIndex) => currentIndex + 1);
-			}, (flightData.timeOfFlight * 1000) / flightData.xCoordinates.length); // Update the index at a fixed interval
+			}, (flightData.timeOfFlight * 1000) / flightData.xCoordinates.length);
 
-			// Stop the timer when it reaches the end of the flight path
 			if (currentIndex >= flightData.xCoordinates.length - 1) {
 				clearInterval(timer);
 			}
 
-			// Clean up the timer when the component is unmounted or when the flight data changes
 			return () => clearInterval(timer);
 		}
 	}, [flightData, currentIndex]);

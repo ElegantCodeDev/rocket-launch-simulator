@@ -1,5 +1,3 @@
-// src/utils/calculateProjectilePath.js
-
 const g = 9.81; // acceleration due to gravity in m/s^2
 
 const calculateProjectilePath = (launchAngle, landingDistance) => {
