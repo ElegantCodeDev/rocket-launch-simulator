@@ -6,6 +6,8 @@ import FlightPath from "./components/FlightPath";
 import FlightData from "./components/FlightData";
 import calculateProjectilePath from "./utils/calculateProjectilePath";
 
+import { Analytics } from "@vercel/analytics/react";
+
 function App() {
 	const [flightData, setFlightData] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -67,6 +69,7 @@ function App() {
 					</Grid>
 				</Grid>
 			)}
+			<Analytics />
 		</RootContainer>
 	);
 }
