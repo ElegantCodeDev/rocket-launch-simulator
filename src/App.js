@@ -1,12 +1,13 @@
+// App.js
+
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Paper, Grid } from "@mui/material";
+import { Container, Typography, Paper, Grid, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import InputForm from "./components/InputForm";
 import FlightPath from "./components/FlightPath";
 import FlightData from "./components/FlightData";
 import calculateProjectilePath from "./utils/calculateProjectilePath";
-
-import { Analytics } from "@vercel/analytics/react";
+import Footer from "./components/Footer";
 
 function App() {
 	const [flightData, setFlightData] = useState(null);
@@ -18,19 +19,21 @@ function App() {
 
 		setFlightData(data);
 		setAngle(angle);
-		setCurrentIndex(0);
+		setCurrentIndex(0); // Reset the current index when new data is calculated
 	};
 
 	useEffect(() => {
 		if (flightData) {
 			const timer = setInterval(() => {
 				setCurrentIndex((currentIndex) => currentIndex + 1);
-			}, (flightData.timeOfFlight * 1000) / flightData.xCoordinates.length);
+			}, (flightData.timeOfFlight * 1000) / flightData.xCoordinates.length); // Update the index at a fixed interval
 
+			// Stop the timer when it reaches the end of the flight path
 			if (currentIndex >= flightData.xCoordinates.length - 1) {
 				clearInterval(timer);
 			}
 
+			// Clean up the timer when the component is unmounted or when the flight data changes
 			return () => clearInterval(timer);
 		}
 	}, [flightData, currentIndex]);
@@ -40,43 +43,51 @@ function App() {
 	}, [flightData]);
 
 	return (
-		<RootContainer>
-			<Typography variant="h4" align="center">
-				Rocket Launch Simulator
-			</Typography>
-			<InputForm onCalculate={handleCalculate} />
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				minHeight: "100vh",
+			}}
+		>
+			<Container sx={{ marginTop: "20px" }}>
+				<Typography
+					variant="h4"
+					align="center"
+					sx={{ marginBottom: "20px" }}
+				>
+					Rocket Launch Simulator
+				</Typography>
+				<InputForm onCalculate={handleCalculate} />
 
-			{flightData && (
-				<Grid container spacing={2} mt={2}>
-					<Grid item xs={8}>
-						<Paper elevation={3}>
-							<FlightPath
+				{flightData && (
+					<Grid container spacing={3} sx={{ marginTop: "20px" }}>
+						<Grid item xs={8}>
+							<Typography variant="h6">Flight Path:</Typography>
+							<Paper elevation={3}>
+								<FlightPath
+									xCoordinates={flightData.xCoordinates}
+									yCoordinates={flightData.yCoordinates}
+									currentIndex={currentIndex}
+								/>
+							</Paper>
+						</Grid>
+						<Grid item xs={4}>
+							<FlightData
+								initialVelocity={flightData.initialVelocity}
+								launchAngle={angle}
+								currentIndex={currentIndex}
 								xCoordinates={flightData.xCoordinates}
 								yCoordinates={flightData.yCoordinates}
-								currentIndex={currentIndex}
+								flightData={flightData}
 							/>
-						</Paper>
+						</Grid>
 					</Grid>
-					<Grid item xs={4}>
-						<FlightData
-							initialVelocity={flightData.initialVelocity}
-							launchAngle={angle}
-							currentIndex={currentIndex}
-							xCoordinates={flightData.xCoordinates}
-							yCoordinates={flightData.yCoordinates}
-							flightData={flightData}
-						/>
-					</Grid>
-				</Grid>
-			)}
-			<Analytics />
-		</RootContainer>
+				)}
+			</Container>
+			<Footer />
+		</Box>
 	);
 }
-
-const RootContainer = styled(Container)(({ theme }) => ({
-	padding: 10,
-	margin: "auto",
-}));
 
 export default App;
