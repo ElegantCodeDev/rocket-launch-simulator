@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Divider } from "@material-ui/core";
+import { Typography, Box, Divider } from "@mui/material";
 
 const FlightData = ({
 	initialVelocity,

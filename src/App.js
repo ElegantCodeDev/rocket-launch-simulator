@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	Container,
-	Typography,
-	Paper,
-	Grid,
-	makeStyles,
-} from "@material-ui/core";
+import { Container, Typography, Paper, Grid, makeStyles } from "@mui/material";
 import InputForm from "./components/InputForm";
 import FlightPath from "./components/FlightPath";
 import FlightData from "./components/FlightData";
